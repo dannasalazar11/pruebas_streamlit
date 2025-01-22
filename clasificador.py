@@ -55,7 +55,7 @@ def main():
             prediction = model.predict(preprocessed_image)
             # prediction = model.predict(image)
             predicted_class = np.argmax(prediction, axis=1)[0]
-            st.write(f"La imagen fue clasificada como la clase: {prediction}")
+            st.write(f"La imagen fue clasificada como la clase: {predicted_class}")
 
 if __name__ == "__main__":
     main()
