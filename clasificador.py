@@ -42,7 +42,7 @@ def main():
         # Mostrar la imagen subida
         image = Image.open(uploaded_file)
         preprocessed_image = preprocess_image(image)
-        st.image(preprocessed_image, caption="Imagen subida", use_column_width=True)
+        st.image(preprocessed_image, caption="Imagen subida", use_container_width=True)
 
         # Guardar la imagen
         file_path = save_image(uploaded_file)
