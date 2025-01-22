@@ -29,9 +29,7 @@ def preprocess_image(image):
     image = image.resize((28, 28))  # Redimensionar a 28x28
     image_array = img_to_array(image) / 255.0  # Normalizar los píxeles
     st.write(f"Dimensiones de la imagen procesada: {image_array.shape}")
-    image_array = np.expand_dims(image_array, axis=0)  # Añadir dimensión batch
-    st.write(f"Dimensiones de la imagen procesada: {image_array.shape}")
-    image_array = np.expand_dims(image_array, axis=-1)  # Para asegurar que tenga un solo canal
+    image_array = image_array.reshape((1, 28, 28))  # Añadir dimensión batch
     st.write(f"Dimensiones de la imagen procesada: {image_array.shape}")
     return image_array
 
