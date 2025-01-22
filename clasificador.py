@@ -55,7 +55,7 @@ def main():
             # prediction = model.predict(image)
             prediction = model.predict(preprocessed_image)
             predicted_class = np.argmax(prediction, axis=1)[0]
-            st.write(f"Predicción completa: {prediction}")  # Para ver los resultados detallados
+            st.write(f"genial, modelo entrenado")  # Para ver los resultados detallados
             st.write(f"La imagen fue clasificada como la clase: {predicted_class}")
 
 
