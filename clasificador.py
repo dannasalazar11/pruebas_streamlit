@@ -18,22 +18,9 @@ def save_image(uploaded_file):
         f.write(uploaded_file.getbuffer())
     return file_path
 
-def load_model_weights():
+def load_model():
     """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
-    model = Sequential([
-        Flatten(input_shape=(28, 28)),
-        Dense(128, activation='relu'),
-        Dropout(0.2),
-        Dense(64, activation='relu'),
-        Dropout(0.2),
-        Dense(10, activation='softmax')
-    ])
-    model.compile(optimizer='adam', 
-                  loss='sparse_categorical_crossentropy', 
-                  metrics=['accuracy'])
-    with open("model_weights.pkl", "rb") as f:
-        weights = pickle.load(f)
-    model.set_weights(weights)
+    model = tf.keras.models.load_model('modelito.keras')
     return model
 
 def preprocess_image(image):
@@ -62,7 +49,7 @@ def main():
 
         # Clasificar la imagen
         if st.button("Clasificar imagen"):
-            model = load_model_weights()
+            model = load_model()
             preprocessed_image = preprocess_image(image)
             prediction = model.predict(preprocessed_image)
             predicted_class = np.argmax(prediction, axis=1)[0]
