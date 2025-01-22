@@ -41,7 +41,8 @@ def main():
     if uploaded_file is not None:
         # Mostrar la imagen subida
         image = Image.open(uploaded_file)
-        st.image(image, caption="Imagen subida", use_column_width=True)
+        preprocessed_image = preprocess_image(image)
+        st.image(preprocessed_image, caption="Imagen subida", use_column_width=True)
 
         # Guardar la imagen
         file_path = save_image(uploaded_file)
@@ -50,9 +51,9 @@ def main():
         # Clasificar la imagen
         if st.button("Clasificar imagen"):
             model = load_model()
-            # preprocessed_image = preprocess_image(image)
-            # prediction = model.predict(preprocessed_image)
-            prediction = model.predict(image)
+            preprocessed_image = preprocess_image(image)
+            prediction = model.predict(preprocessed_image)
+            # prediction = model.predict(image)
             predicted_class = np.argmax(prediction, axis=1)[0]
             st.write(f"La imagen fue clasificada como la clase: {predicted_class}")
 
