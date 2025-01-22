@@ -52,10 +52,12 @@ def main():
         if st.button("Clasificar imagen"):
             model = load_model()
             preprocessed_image = preprocess_image(image)
-            prediction = model.predict(preprocessed_image)
             # prediction = model.predict(image)
+            prediction = model.predict(preprocessed_image)
             predicted_class = np.argmax(prediction, axis=1)[0]
+            st.write(f"Predicción completa: {prediction}")  # Para ver los resultados detallados
             st.write(f"La imagen fue clasificada como la clase: {predicted_class}")
+
 
 if __name__ == "__main__":
     main()
