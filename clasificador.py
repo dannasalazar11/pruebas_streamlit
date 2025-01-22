@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 import os
 import numpy as np
-import pickle
+import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Flatten, Dense, Dropout
 from tensorflow.keras.preprocessing.image import img_to_array
