@@ -20,7 +20,10 @@ def save_image(uploaded_file):
 
 def load_model():
     """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
-    model = tf.keras.models.load_model('modelito.keras')
+    # model = tf.keras.models.load_model('modelito.keras')
+    # Cargar el modelo comprimido
+    with gzip.open(filename, 'rb') as f:
+        model = pickle.load(f)
     return model
 
 def preprocess_image(image):
@@ -54,9 +57,9 @@ def main():
             preprocessed_image = preprocess_image(image)
             # prediction = model.predict(image)
             prediction = model.predict(preprocessed_image)
-            predicted_class = np.argmax(prediction, axis=1)[0]
+            # predicted_class = np.argmax(prediction, axis=1)[0]
             st.write(f"genial, modelo entrenado")  # Para ver los resultados detallados
-            st.write(f"La imagen fue clasificada como la clase: {predicted_class}")
+            st.write(f"La imagen fue clasificada como la clase: {prediction}")
 
 
 if __name__ == "__main__":
