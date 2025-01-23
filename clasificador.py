@@ -54,15 +54,27 @@ def main():
         file_path = save_image(uploaded_file)
         st.success(f"Imagen guardada en: {file_path}")
 
+        fashion_mnist_clases = {
+        0: "Camiseta/top",
+        1: "Pantalón",
+        2: "Suéter",
+        3: "Vestido",
+        4: "Abrigo",
+        5: "Sandalia",
+        6: "Camisa",
+        7: "Zapatilla deportiva",
+        8: "Bolso",
+        9: "Bota"
+        }
+
         # Clasificar la imagen
         if st.button("Clasificar imagen"):
             model = load_model()
             preprocessed_image = preprocess_image(image)
             # prediction = model.predict(image)
-            prediction = model.predict(preprocessed_image.reshape(1,-1))
-            # predicted_class = np.argmax(prediction, axis=1)[0]
+            prediction = model.predict(preprocessed_image.reshape(1,-1))[0]
             st.write(f"genial, modelo entrenado")  # Para ver los resultados detallados
-            st.write(f"La imagen fue clasificada como la clase: {prediction}")
+            st.write(f"La imagen fue clasificada como la clase: {prediction} ({fashion_mnist_clases[prediction]})")
 
 
 if __name__ == "__main__":
