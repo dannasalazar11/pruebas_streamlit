@@ -6,6 +6,7 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Flatten, Dense, Dropout
 from tensorflow.keras.preprocessing.image import img_to_array
+import gzip
 
 # Crear un directorio para guardar las imágenes si no existe
 UPLOAD_FOLDER = "uploaded_images"
