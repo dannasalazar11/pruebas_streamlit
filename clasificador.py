@@ -86,7 +86,7 @@ def main():
 
         # Guardar la imagen
         file_path = save_image(uploaded_file)
-        st.success(f"Imagen guardada en: {file_path}")
+        st.success(f"Imagen guardada")
 
         # Diccionario de clases
         fashion_mnist_clases = {
