@@ -23,6 +23,7 @@ def load_model():
     """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
     # model = tf.keras.models.load_model('modelito.keras')
     # Cargar el modelo comprimido
+    filename = 'model_trained2.pkl.gz'
     with gzip.open(filename, 'rb') as f:
         model = pickle.load(f)
     return model
