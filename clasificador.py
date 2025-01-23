@@ -80,9 +80,9 @@ def main():
         st.subheader("Imágenes antes y después del preprocesamiento")
         col1, col2 = st.columns(2)
         with col1:
-            st.image(image, caption="Imagen original", use_column_width=True, output_format="auto")
+            st.image(image, caption="Imagen original", use_container_width=True, output_format="auto")
         with col2:
-            st.image(preprocessed_image[0], caption="Imagen preprocesada", use_column_width=True, output_format="auto")
+            st.image(preprocessed_image[0], caption="Imagen preprocesada", use_container_width=True, output_format="auto")
 
         # Guardar la imagen
         file_path = save_image(uploaded_file)
