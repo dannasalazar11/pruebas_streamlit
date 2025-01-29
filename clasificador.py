@@ -30,7 +30,7 @@ def preprocess_image(image):
     image = image.convert('L')  # Convertir a escala de grises
     image = image.resize((28, 28))  # Redimensionar a 28x28
     image_array = img_to_array(image) / 255.0  # Normalizar los píxeles
-    image_array = image_array.reshape(1, 28, 28, 1)  # Asegurar la forma correcta
+    image_array = image_array.reshape(1, -1)  # Convertir a vector de 784 características
     return image_array
 
 def main():
@@ -82,7 +82,7 @@ def main():
         with col1:
             st.image(image, caption="Imagen original", use_container_width=True, output_format="auto")
         with col2:
-            st.image(preprocessed_image[0].reshape(28, 28), caption="Imagen preprocesada", use_container_width=True, output_format="auto")
+            st.image(preprocessed_image.reshape(28, 28), caption="Imagen preprocesada", use_container_width=True, output_format="auto")
 
         # Guardar la imagen
         file_path = save_image(uploaded_file)
