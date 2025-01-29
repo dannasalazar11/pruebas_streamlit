@@ -30,7 +30,7 @@ def preprocess_image(image):
     image = image.convert('L')  # Convertir a escala de grises
     image = image.resize((28, 28))  # Redimensionar a 28x28
     image_array = img_to_array(image) / 255.0  # Normalizar los píxeles
-    image_array = image_array.reshape(28, 28)  # Añadir dimensión batch y canal
+    image_array = image_array.reshape(1, 28, 28, 1)  # Asegurar la forma correcta
     return image_array
 
 def main():
@@ -82,7 +82,7 @@ def main():
         with col1:
             st.image(image, caption="Imagen original", use_container_width=True, output_format="auto")
         with col2:
-            st.image(preprocessed_image, caption="Imagen preprocesada", use_container_width=True, output_format="auto")
+            st.image(preprocessed_image[0].reshape(28, 28), caption="Imagen preprocesada", use_container_width=True, output_format="auto")
 
         # Guardar la imagen
         file_path = save_image(uploaded_file)
@@ -95,7 +95,11 @@ def main():
         if st.button("Clasificar imagen"):
             with st.spinner("Cargando modelo y clasificando..."):
                 model = load_model()
-                prediction = model.predict(preprocessed_image.reshape(1,-1))
+                prediction = model.predict(preprocessed_image)
+                
+                # Verificar valores de predicción
+                st.write("Predicciones del modelo:", prediction)
+
                 class_index = np.argmax(prediction)
                 class_name = mnist_classes.get(class_index, "Clase desconocida")
                 st.success(f"La imagen fue clasificada como: {class_name}")
