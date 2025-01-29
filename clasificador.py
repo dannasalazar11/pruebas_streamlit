@@ -20,7 +20,7 @@ def save_image(uploaded_file):
 
 def load_model():
     """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
-    filename = 'model_trained2.pkl.gz'
+    filename = 'model_trained_classifier.pkl.gz'
     with gzip.open(filename, 'rb') as f:
         model = pickle.load(f)
     return model
@@ -30,7 +30,7 @@ def preprocess_image(image):
     image = image.convert('L')  # Convertir a escala de grises
     image = image.resize((28, 28))  # Redimensionar a 28x28
     image_array = img_to_array(image) / 255.0  # Normalizar los píxeles
-    image_array = np.expand_dims(image_array, axis=0)  # Añadir dimensión batch
+    image_array = image_array.reshape(1, 28, 28, 1)  # Añadir dimensión batch y canal
     return image_array
 
 def main():
@@ -62,8 +62,8 @@ def main():
     )
 
     # Título y descripción
-    st.markdown('<div class="main-title">Clasificación de Imágenes con Modelo Preentrenado</div>', unsafe_allow_html=True)
-    st.markdown('<div class="description">Sube una imagen y la clasificaremos utilizando un modelo preentrenado.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-title">Clasificación de Dígitos MNIST</div>', unsafe_allow_html=True)
+    st.markdown('<div class="description">Sube una imagen de un dígito y la clasificaremos usando un modelo preentrenado.</div>', unsafe_allow_html=True)
 
     # Widget de subida de archivos
     uploaded_file = st.file_uploader("Selecciona una imagen (PNG, JPG, JPEG):", type=["png", "jpg", "jpeg"])
@@ -82,32 +82,22 @@ def main():
         with col1:
             st.image(image, caption="Imagen original", use_container_width=True, output_format="auto")
         with col2:
-            st.image(preprocessed_image[0], caption="Imagen preprocesada", use_container_width=True, output_format="auto")
+            st.image(preprocessed_image[0].reshape(28, 28), caption="Imagen preprocesada", use_container_width=True, output_format="auto")
 
         # Guardar la imagen
         file_path = save_image(uploaded_file)
         st.success(f"Imagen guardada")
 
-        # Diccionario de clases
-        fashion_mnist_clases = {
-            0: "Camiseta/top",
-            1: "Pantalón",
-            2: "Suéter",
-            3: "Vestido",
-            4: "Abrigo",
-            5: "Sandalia",
-            6: "Camisa",
-            7: "Zapatilla deportiva",
-            8: "Bolso",
-            9: "Bota"
-        }
+        # Diccionario de clases para MNIST
+        mnist_classes = {i: str(i) for i in range(10)}
 
         # Botón para clasificar la imagen
         if st.button("Clasificar imagen"):
             with st.spinner("Cargando modelo y clasificando..."):
                 model = load_model()
-                prediction = model.predict(preprocessed_image.reshape(1, -1))[0]
-                class_name = fashion_mnist_clases.get(prediction, "Clase desconocida")
+                prediction = model.predict(preprocessed_image)
+                class_index = np.argmax(prediction)
+                class_name = mnist_classes.get(class_index, "Clase desconocida")
                 st.success(f"La imagen fue clasificada como: {class_name}")
 
     # Footer
