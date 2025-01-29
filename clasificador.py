@@ -98,11 +98,7 @@ def main():
                 prediction = model.predict(preprocessed_image)
                 
                 # Verificar valores de predicción
-                st.write("Predicciones del modelo:", prediction)
-
-                class_index = np.argmax(prediction)
-                class_name = mnist_classes.get(class_index, "Clase desconocida")
-                st.success(f"La imagen fue clasificada como: {class_name}")
+                st.success(f"La imagen fue clasificada como: {prediction}")
 
     # Footer
     st.markdown('<div class="footer">© 2025 - Clasificación de imágenes con Streamlit</div>', unsafe_allow_html=True)
