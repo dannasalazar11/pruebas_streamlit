@@ -22,10 +22,14 @@ def load_model():
     """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
 
     # nombre de la red neuronal
+    filename = 'model_trained_classifier.pkl.gz'
+    with gzip.open(filename, 'rb') as f:
+        model1 = pickle.load(f)
+
     filename = 'best_model.pkl.gz'
     with gzip.open(filename, 'rb') as f:
-        model = pickle.load(f)
-    return model
+        model2 = pickle.load(f)
+    return model1, model2
 
 def preprocess_image(image):
     """Preprocesa la imagen para que sea compatible con el modelo."""
@@ -101,15 +105,18 @@ def main():
         # Botón para clasificar la imagen
         if st.button("Clasificar imagen"):
             with st.spinner("Cargando modelo y clasificando..."):
-                model = load_model()
+                model1, model2 = load_model()
+
+                
                 # para clasificador clásico
-                # prediction = model.predict(preprocessed_image)
+                prediction = model1.predict(preprocessed_image.reshape(1,-1))
+                st.success(f"La imagen fue clasificada con el clasificador clásico como: {prediction}")
             
                 # para red neuronal
-                prediction = np.argmax(model.predict(preprocessed_image))
+                prediction = np.argmax(model2.predict(preprocessed_image))
                 
                 # Verificar valores de predicción
-                st.success(f"La imagen fue clasificada como: {prediction}")
+                st.success(f"La imagen fue clasificada con la red neuronal como: {prediction}")
 
     # Footer
     st.markdown('<div class="footer">© 2025 - Clasificación de imágenes con Streamlit</div>', unsafe_allow_html=True)
