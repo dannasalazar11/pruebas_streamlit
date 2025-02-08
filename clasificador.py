@@ -95,7 +95,7 @@ def main():
         if st.button("Clasificar imagen"):
             with st.spinner("Cargando modelo y clasificando..."):
                 model = load_model()
-                prediction = model.predict(preprocessed_image)
+                prediction = np.argmax(model.predict(preprocessed_image))
                 
                 # Verificar valores de predicción
                 st.success(f"La imagen fue clasificada como: {prediction}")
