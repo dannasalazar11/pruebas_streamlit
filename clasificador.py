@@ -20,7 +20,7 @@ def save_image(uploaded_file):
 
 def load_model():
     """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
-    filename = 'model_trained_classifier.pkl.gz'
+    filename = 'best_model.pkl.gz'
     with gzip.open(filename, 'rb') as f:
         model = pickle.load(f)
     return model
