@@ -20,6 +20,8 @@ def save_image(uploaded_file):
 
 def load_model():
     """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
+
+    # nombre de la red neuronal
     filename = 'best_model.pkl.gz'
     with gzip.open(filename, 'rb') as f:
         model = pickle.load(f)
@@ -30,7 +32,12 @@ def preprocess_image(image):
     image = image.convert('L')  # Convertir a escala de grises
     image = image.resize((28, 28))  # Redimensionar a 28x28
     image_array = img_to_array(image) / 255.0  # Normalizar los píxeles
-    image_array = image_array.reshape(1, 28,28)  # Convertir a vector de 784 características
+
+    # para clasificador clásico
+    # mage_array = image_array.reshape(1, -1)
+
+    # Para red neuronal
+    image_array = image_array.reshape(1, 28,28)  # Convertir a vector de 784 características (CAMBIO PARA RED NEURONAL)
     return image_array
 
 def main():
@@ -95,6 +102,10 @@ def main():
         if st.button("Clasificar imagen"):
             with st.spinner("Cargando modelo y clasificando..."):
                 model = load_model()
+                # para clasificador clásico
+                # prediction = model.predict(preprocessed_image)
+            
+                # para red neuronal
                 prediction = np.argmax(model.predict(preprocessed_image))
                 
                 # Verificar valores de predicción
